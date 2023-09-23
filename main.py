@@ -42,7 +42,42 @@ class StudentWindow(pyqt.QMainWindow):
 
 
 
+class InsertDialog(pyqt.QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Insert Student Data')
+        self.setFixedWidth(300)
+        self.setFixedHeight(300)
 
+        layout = pyqt.QVBoxLayout()
+
+        self.stuname = pyqt.QLineEdit()
+        self.stuname.setPlaceholderText('Name')
+        
+        self.stucourse = pyqt.QComboBox()
+        self.stucourse.addItems(['Biology', 'Math', 'Astronomy', 'Physics'])
+
+        self.stumob = pyqt.QLineEdit()
+        self.stumob.setPlaceholderText('Mobile')
+
+        subbutton = pyqt.QPushButton('Submit')
+        subbutton.clicked.connect(self.addstudent)
+
+        layout.addWidget(self.stuname)
+        layout.addWidget(self.stucourse)
+        layout.addWidget(self.stumob)
+        layout.addWidget(subbutton)
+
+        self.setLayout(layout)
+
+    def addstudent(self):
+        name = self.stuname.text()
+        course = self.stucourse.itemText(self.stucourse.currentIndex())
+        mobile = self.stumob.text()
+
+        writedata = backend.Write(name=name, course=course, mobile=mobile)
+        writedata.writedata()
+        stuwindow.loadtable()
 
 
 
