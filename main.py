@@ -1,5 +1,6 @@
 import PyQt6.QtWidgets as pyqt
-from PyQt6.QtGui import QAction
+from PyQt6.QtGui import QAction, QIcon
+from PyQt6.QtCore import Qt
 import backend
 import sys
 
@@ -8,22 +9,32 @@ class StudentWindow(pyqt.QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Student Management System')
+        self.setFixedWidth(500)
+        self.setFixedHeight(400)
 
         #Menu Bar
         filemenuitem = self.menuBar().addMenu('&File')
         aboutmenuitem = self.menuBar().addMenu('&About')
         editmenuitem = self.menuBar().addMenu('&Edit')
 
-        addstudentaction = QAction('Add Student', self)
+        addstudentaction = QAction(QIcon('icons/add.png'),'Add Student', self)
         addstudentaction.triggered.connect(self.insert)
         filemenuitem.addAction(addstudentaction)
 
         aboutaction = QAction('About', self)
         aboutmenuitem.addAction(aboutaction)
 
-        searchstudentaction = QAction('Search', self)
+        searchstudentaction = QAction(QIcon('icons/search.png'),'Search', self)
         searchstudentaction.triggered.connect(self.search)
         editmenuitem.addAction(searchstudentaction)
+
+        #Tool Bar
+        toolbar = pyqt.QToolBar()
+        toolbar.setMovable(True)
+        self.addToolBar(toolbar)
+
+        toolbar.addAction(addstudentaction)
+        toolbar.addAction(searchstudentaction)
 
         #Table
         self.table = pyqt.QTableWidget()
@@ -101,6 +112,7 @@ class SearchDialog(pyqt.QDialog):
 
         layout = pyqt.QVBoxLayout()
 
+        #Widgets
         self.searchbox = pyqt.QLineEdit()
         self.searchbox.setPlaceholderText('Name')
 
@@ -114,8 +126,13 @@ class SearchDialog(pyqt.QDialog):
 
     #method to search for student by name in table
 
-    def searchstudent():
-        pass
+    def searchstudent(self):
+        name = self.searchbox.text()
+        namedata = backend.Search(name).searchdata()
+        result = list(namedata)
+        items = stuwindow.table.findItems(name, Qt.MatchFlag.MatchFixedString)
+        for item in items:
+            stuwindow.table.item(item.row(), 1).setSelected(True)
 
 
 

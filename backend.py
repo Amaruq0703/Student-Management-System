@@ -27,3 +27,13 @@ class Get:
         studentdata = cursor.fetchall()
         return studentdata
 
+
+class Search:
+    def __init__(self, searchname):
+        self.searchname = searchname
+        pass
+
+    def searchdata(self):
+        cursor.execute('SELECT * FROM students WHERE name = ?', (self.searchname,))
+        namedata = cursor.fetchall()
+        return namedata
