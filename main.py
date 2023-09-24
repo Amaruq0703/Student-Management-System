@@ -12,6 +12,7 @@ class StudentWindow(pyqt.QMainWindow):
         #Menu Bar
         filemenuitem = self.menuBar().addMenu('&File')
         aboutmenuitem = self.menuBar().addMenu('&About')
+        editmenuitem = self.menuBar().addMenu('&Edit')
 
         addstudentaction = QAction('Add Student', self)
         addstudentaction.triggered.connect(self.insert)
@@ -19,6 +20,10 @@ class StudentWindow(pyqt.QMainWindow):
 
         aboutaction = QAction('About', self)
         aboutmenuitem.addAction(aboutaction)
+
+        searchstudentaction = QAction('Search', self)
+        searchstudentaction.triggered.connect(self.search)
+        editmenuitem.addAction(searchstudentaction)
 
         #Table
         self.table = pyqt.QTableWidget()
@@ -39,8 +44,12 @@ class StudentWindow(pyqt.QMainWindow):
     def insert(self):
         dialog = InsertDialog()
         dialog.exec()
+    
+    def search(self):
+        dialog = SearchDialog()
+        dialog.exec()
 
-
+# Insert New Student
 
 class InsertDialog(pyqt.QDialog):
     def __init__(self):
@@ -51,6 +60,7 @@ class InsertDialog(pyqt.QDialog):
 
         layout = pyqt.QVBoxLayout()
 
+        #Widgets
         self.stuname = pyqt.QLineEdit()
         self.stuname.setPlaceholderText('Name')
         
@@ -70,6 +80,7 @@ class InsertDialog(pyqt.QDialog):
 
         self.setLayout(layout)
 
+    #Method to add student to table
     def addstudent(self):
         name = self.stuname.text()
         course = self.stucourse.itemText(self.stucourse.currentIndex())
@@ -79,6 +90,32 @@ class InsertDialog(pyqt.QDialog):
         writedata.writedata()
         stuwindow.loadtable()
 
+# Search for student name        
+
+class SearchDialog(pyqt.QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Search Student Name')
+        self.setFixedWidth(300)
+        self.setFixedHeight(300)
+
+        layout = pyqt.QVBoxLayout()
+
+        self.searchbox = pyqt.QLineEdit()
+        self.searchbox.setPlaceholderText('Name')
+
+        searchbutton = pyqt.QPushButton('Search')
+        searchbutton.clicked.connect(self.searchstudent)
+
+        layout.addWidget(self.searchbox)
+        layout.addWidget(searchbutton)
+
+        self.setLayout(layout)
+
+    #method to search for student by name in table
+
+    def searchstudent():
+        pass
 
 
 
