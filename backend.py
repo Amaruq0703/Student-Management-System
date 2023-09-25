@@ -16,6 +16,12 @@ class Write:
         cursor.execute('INSERT INTO students (name, course, mobile) VALUES (?,?,?)', row)
         connection.commit()
 
+    def editdata(self, id):
+        row = (self.name, self.course, self.mobile, id)
+        cursor.execute('UPDATE students SET name = ?, course = ?, mobile = ? WHERE id = ?', row)
+        connection.commit()
+
+
 # Get data from database
 
 class Get:
@@ -37,3 +43,11 @@ class Search:
         cursor.execute('SELECT * FROM students WHERE name = ?', (self.searchname,))
         namedata = cursor.fetchall()
         return namedata
+
+class Delete:
+    def __init__(self):
+        pass
+
+    def deletedata(self, id):
+        cursor.execute('DELETE FROM students WHERE id = ?', (id,))
+        connection.commit()
