@@ -22,6 +22,7 @@ class StudentWindow(pyqt.QMainWindow):
         filemenuitem.addAction(addstudentaction)
 
         aboutaction = QAction('About', self)
+        aboutaction.triggered.connect(self.about)
         aboutmenuitem.addAction(aboutaction)
 
         searchstudentaction = QAction(QIcon('icons/search.png'),'Search', self)
@@ -75,6 +76,8 @@ class StudentWindow(pyqt.QMainWindow):
         self.statusbar.addWidget(self.delbutton)
         self.statusbar.addWidget(self.editbutton)  
 
+
+    #Calling dialogues
     def edit(self):
         dialog = EditDialog()
         dialog.exec()
@@ -90,6 +93,23 @@ class StudentWindow(pyqt.QMainWindow):
     def search(self):
         dialog = SearchDialog()
         dialog.exec()
+
+    def about(self):
+        dialog = AboutDialog()
+        dialog.exec()
+
+
+# Showing About dialog
+
+class AboutDialog(pyqt.QMessageBox):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('About')
+        content = f"""A OOP python application that is a Student Management System using sqlite3 
+        for the database and PyQt6 for the graphical user interface.
+          Has Add, Search, Edit, Delete and About functions."""
+        self.setText(content)
+
 
 # Insert New Student
 
@@ -134,6 +154,7 @@ class InsertDialog(pyqt.QDialog):
 
         self.close()
 
+
 # Search for student name        
 
 class SearchDialog(pyqt.QDialog):
@@ -168,6 +189,7 @@ class SearchDialog(pyqt.QDialog):
             stuwindow.table.item(item.row(), 1).setSelected(True)
 
         self.close()
+
 
 # Edit student details
 
@@ -219,6 +241,7 @@ class EditDialog(pyqt.QDialog):
         stuwindow.loadtable()
 
         self.close()
+
 
 # Delete student record
 
