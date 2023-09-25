@@ -1,0 +1,2 @@
+## What is this project?
+A OOP python application that is a Student Management System using sqlite3 for the database and PyQt6 for the graphical user interface. Has Add, Search, Edit, Delete and About functions.
